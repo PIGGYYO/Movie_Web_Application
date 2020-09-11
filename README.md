@@ -9,17 +9,17 @@ A Web application that makes use of Flask configuration, Jinja templating, WTFor
 **Installation via requirements.txt**
 
 ```shell
-$ cd COMPSCI235_A2_ston253
+$ cd Movie_Web_Application
 $ py -3 -m venv venv
 $ venv\Scripts\activate
 $ pip install -r requirements.txt
 ```
 
-When using PyCharm, set the virtual environment using 'File'->'Settings' and select 'Project:COMPSCI235_A2_ston253' from the left menu. Select 'Project Interpreter', click on the gearwheel button and select 'Add'. Click the 'Existing environment' radio button to select the virtual environment. 
+When using PyCharm, set the virtual environment using 'File'->'Settings' and select 'Project:Movie_Web_Application' from the left menu. Select 'Project Interpreter', click on the gearwheel button and select 'Add'. Click the 'Existing environment' radio button to select the virtual environment. 
 
 ## Configuration
 
-The COMPSCI235_A2_ston253/.env file contains variable settings. They are set with appropriate values.
+The Movie_Web_Application/.env file contains variable settings. They are set with appropriate values.
 
 FLASK_APP: Entry point of the application (should always be wsgi.py).
 FLASK_ENV: The environment in which to run the application (either development or production).
@@ -31,7 +31,7 @@ WTF_CSRF_SECRET_KEY: Secret key used by the WTForm library.
 
 **Running the application**
 
-From the *COMPSCI235_A2_ston253* directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
+From the *Movie_Web_Application* directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
 
 ````shell
 $ flask run
