@@ -1,12 +1,14 @@
-# movie_file_csv_reader.py
+# memory_repository.py
 import csv
+from abc import ABC
+
 from movie_web_app.domain.model import Movie, Actor, Director, Genre
 from movie_web_app.adapters.repository import AbstractRepository
 
 
 class MemoryRepository(AbstractRepository):
-    def __init__(self, file_name):
-        self.file_name = file_name
+
+    def __init__(self):
         self.dataset_of_movies = []
         self.dataset_of_actors = []
         self.dataset_of_directors = []
@@ -20,11 +22,11 @@ class MemoryRepository(AbstractRepository):
         if director not in self.dataset_of_directors:
             self.dataset_of_directors.append(director)
 
-    def add_genres(self, genre: Genre):
+    def add_genre(self, genre: Genre):
         if genre not in self.dataset_of_genres:
             self.dataset_of_genres.append(genre)
 
-    def add_movies(self, title, year):
+    def add_movie(self, title, year):
         self.dataset_of_movies.append(Movie(title,year))
 
     def get_actor(self, actor_name) -> Actor:
