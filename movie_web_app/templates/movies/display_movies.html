@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <style>
+        main{
+
+            max-width: 500px;
+            overflow-wrap: break-word;
+        }
+    </style>
+    <main id='main'>
+        <p>
+            <header id="movies-header">
+                <h1>{{ title }}</h1>
+            </header>
+
+            <main>
+                {% for movie in movies %}
+                    {% include 'movie_list.html' %}
+                    <p><br></p>
+                    <p><br></p>
+                {% endfor %}
+
+                {% if first_movie_url != None %}
+                    <a href="{{ first_movie_url }}">Frist Page</a>
+                {% endif %}
+
+                {% if last_movie_url != None %}
+                    <a href="{{ last_movie_url }}">Last Page</a>
+                {% endif %}
+
+                {% if prev_movie_url != None %}
+                    <a href="{{ prev_movie_url }}">Previous Page</a>
+                {% endif %}
+
+                {% if next_movie_url != None %}
+                    <a href="{{ next_movie_url }}">Next Page</a>
+                {% endif %}
+            </main>
+        </p>
+    </main>
+{% endblock%}

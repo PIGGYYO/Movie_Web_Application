@@ -2,7 +2,7 @@
 {% block content %}
 <main>
     {% if movie != None %}
-    <p>Movie: {{ movie.title }}, {{ movie.time }} </p>>
+        {% include 'movie_list.html' %}
     {% else %}
     <p>There is no matching movie.</p>
     {% endif %}

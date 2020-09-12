@@ -23,6 +23,9 @@ def create_app():
         from .search import search
         app.register_blueprint(search.search_blueprint)
 
+        from .movies import movies
+        app.register_blueprint(movies.movies_blueprint)
+
     repo.repo_instance = MemoryRepository()
     read_csv_file(os.path.join(data_path, 'Data1000Movies.csv'),repo.repo_instance)
 

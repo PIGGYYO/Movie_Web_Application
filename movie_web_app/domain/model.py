@@ -8,9 +8,9 @@ class Actor:
 
     def __repr__(self):
         if self.actor_full_name != "" and isinstance(self.actor_full_name, str):
-            return "<Actor {}>".format(self.actor_full_name)
+            return "<{}>".format(self.actor_full_name)
         else:
-            return "<Actor None>"
+            return "<None>"
 
     def __eq__(self, other):
         return self.actor_full_name == other.actor_full_name
@@ -34,9 +34,9 @@ class Director:
 
     def __repr__(self):
         if self.director_full_name != "":
-            return "<Director {}>".format(self.director_full_name)
+            return "<{}>".format(self.director_full_name)
         else:
-            return "<Director None>"
+            return "<None>"
 
     def __eq__(self, other):
         return self.director_full_name == other.director_full_name
@@ -54,9 +54,9 @@ class Genre:
 
     def __repr__(self):
         if self.genre_name != "":
-            return "<Genre {}>".format(self.genre_name)
+            return "<{}>".format(self.genre_name)
         else:
-            return "<Genre None>"
+            return "<None>"
 
     def __eq__(self, other):
         return self.genre_name == other.genre_name
@@ -79,6 +79,10 @@ class Movie:
         self.genres = []
         self.description = ""
         self.director = ""
+        self.rating = 0
+        self.meta = "N/A"
+        self.revenue = "N/A"
+        self.vote = 0
 
     def __repr__(self):
         return "<Movie {}, {}>".format(self.title, self.time)
