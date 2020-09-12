@@ -3,17 +3,70 @@
     <head>
         <meta charset="UTF-8">
         <title>~~MOVIES~~</title>
+        <style type="text/css">
+        html, body {
+            height:100%;
+            margin:0;
+            padding:0
+        }
+        .head,.footer{
+            text-align: center;
+            position: absolute;
+            height:100px;
+            width:100%;
+            background: #F0FFF0;
+        }
+        .head{
+            top:0;
+        }
+        .footer{
+            bottom:0;
+        }
+        .left ,.right{
+            text-align: center;
+            position:relative;
+            width:300px;
+            height: 100%;
+            background-color: #B4EEB4;
+            padding-bottom: 100%;
+        }
+        .left{
+            float: left;
+        }
+        .right{
+            float: right;
+        }
+        .container{
+            position:absolute;
+            left:300px;
+            right:300px;
+            height: 100%;
+            background-color: #F0FFF0;
+            padding-bottom: 100%;
+
+        }
+       .content{
+           position:absolute;
+           top:100px;
+           bottom:100px;
+           width: 100%;
+       }
+    </style>
     </head>
 
     <body>
-        <div id ="url">
-            <a href="{{ find_movie_url }}">Find the Movie You Want</a>
-            <a href="{{ display_movies_url }}">Display</a>
-        </div>
+    <div class="head">
+        <h1>~~Movies~~</h1>
+    </div>
 
-        <div id="container">
+    <div class="content">
+        <div id="body">
+        {% include 'navigation.html' %}
+        </div>
+        <div class="container">
             {% block content %}
             {% endblock %}
         </div>
+    </div>
     </body>
 </html>

@@ -1,0 +1,23 @@
+<nav class = "left">
+  <div>
+      <h2>
+          <a href="{{ url_for('home_bp.home') }}">Home</a>
+      </h2>
+  </div>
+  <div>
+    <h3>
+      <a href="{{ url_for('search_bp.find_movie') }}">
+          Search Movies
+      </a>
+    </h3>
+  </div>
+
+  <div>
+    <h3 id="sub-nav-header">
+      <a href="{{ url_for('movies_bp.display_movies') }}">
+        Movies List
+      </a>
+    </h3>
+  </div>
+
+</nav>
