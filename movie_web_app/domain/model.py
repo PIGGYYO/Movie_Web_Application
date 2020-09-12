@@ -84,6 +84,8 @@ class Movie:
         return "<Movie {}, {}>".format(self.title, self.time)
 
     def __eq__(self, other):
+        if other == None:
+            return False
         return self.title + str(self.time) == other.title + str(other.time)
 
     def __lt__(self, other):

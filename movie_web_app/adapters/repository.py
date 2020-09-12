@@ -4,8 +4,8 @@ from typing import List
 
 from movie_web_app.domain.model import Actor, Director, Genre, Movie
 
-repo_instance = None
 
+repo_instance = None
 
 class AbstractRepository(abc.ABC):
 

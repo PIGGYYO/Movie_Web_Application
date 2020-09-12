@@ -1,0 +1,10 @@
+{%  extends 'layout.html' %}
+{% block content %}
+<main>
+    {% if movie != None %}
+    <p>Movie: {{ movie.title }}, {{ movie.time }} </p>>
+    {% else %}
+    <p>There is no matching movie.</p>
+    {% endif %}
+</main>
+{% endblock %}

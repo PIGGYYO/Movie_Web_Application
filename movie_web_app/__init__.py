@@ -1,6 +1,7 @@
 # __init__.py
 from flask import Flask, request
-from movie_web_app.adapters.memory_repository import MemoryRepository
+import os
+from movie_web_app.adapters.memory_repository import MemoryRepository, read_csv_file
 import movie_web_app.adapters.repository as repo
 
 
@@ -9,6 +10,7 @@ def create_app():
 
     # Create the MemoryRepository implementation for a memory-based repository.
     repo.repo_instance = MemoryRepository()
+    data_path = os.path.join('movie_web_app', 'adapters', 'datafiles')
 
     # Configure the app from configuration-file settings
     app.config.from_object('config.Config')
@@ -21,5 +23,7 @@ def create_app():
         from .search import search
         app.register_blueprint(search.search_blueprint)
 
-    return app
+    repo.repo_instance = MemoryRepository()
+    read_csv_file(os.path.join(data_path, 'Data1000Movies.csv'),repo.repo_instance)
 
+    return app

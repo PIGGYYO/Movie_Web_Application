@@ -6,6 +6,7 @@ from movie_web_app.domain.model import Movie, Actor, Director, Genre
 from movie_web_app.adapters.repository import AbstractRepository
 
 
+
 class MemoryRepository(AbstractRepository):
 
     def __init__(self):
