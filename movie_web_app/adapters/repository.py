@@ -2,7 +2,7 @@
 import abc
 from typing import List
 
-from movie_web_app.domain.model import Actor, Director, Genre, Movie
+from movie_web_app.domain.model import Actor, Director, Genre, Movie, Review, User
 
 
 repo_instance = None
@@ -52,4 +52,27 @@ class AbstractRepository(abc.ABC):
         # Returns the Movie named movie_name from the repository.
         # If there is no Movie with the given movie_name, this method returns None.
         raise NotImplementedError
+
+    @abc.abstractmethod
+    def add_user(self, user: User):
+        # Adds an genre to repository
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def get_user(self, user_name) -> User:
+        # Returns the Genre named genre_name from the repository.
+        # If there is no Genre with the given genre_name, this method returns None.
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def add_review(self, review: Review):
+        # Adds an genre to repository
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def get_review(self):
+        # Returns the Genre named genre_name from the repository.
+        # If there is no Genre with the given genre_name, this method returns None.
+        raise NotImplementedError
+
 

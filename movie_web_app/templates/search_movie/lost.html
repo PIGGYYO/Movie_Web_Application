@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+{% block content %}
+<main>
+    <div>
+        <p>"There is no matching movie." </p>
+        <a href="{{ redirect_url }}">
+        Searching by {{ title }}
+        </a>
+    </div>
+</main>
+{% endblock %}

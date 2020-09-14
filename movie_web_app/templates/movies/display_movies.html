@@ -1,30 +1,31 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <style>
-        main{
-            max-width: 500px;
-            overflow-wrap: break-word;
-        }
-    </style>
     <main id='main'>
         <p>
             <header id="movies-header">
-                <h1>{{ title }}</h1>
+                <h1>{{ title }}
+                {% if space1 != None %}
+                    {{ space1 }}
+                {% endif %}
+                {% if space2 != None %}
+                    {{ space2 }}
+                {% endif %}
+                {% if space3 != None %}
+                    {{ space3 }}
+                {% endif %}
+                </h1>
             </header>
 
             <main>
+            {% if movies != None %}
                 {% for movie in movies %}
-                    {% include 'movie_list.html' %}
+                    {% include 'movies/movie_list.html' %}
                     <p><br></p>
                     <p><br></p>
                 {% endfor %}
 
                 {% if first_movie_url != None %}
-                    <a href="{{ first_movie_url }}">Frist Page</a>
-                {% endif %}
-
-                {% if last_movie_url != None %}
-                    <a href="{{ last_movie_url }}">Last Page</a>
+                    <a href="{{ first_movie_url }}">First Page</a>
                 {% endif %}
 
                 {% if prev_movie_url != None %}
@@ -34,6 +35,13 @@
                 {% if next_movie_url != None %}
                     <a href="{{ next_movie_url }}">Next Page</a>
                 {% endif %}
+
+                {% if last_movie_url != None %}
+                    <a href="{{ last_movie_url }}">Last Page</a>
+                {% endif %}
+            {% else %}
+                <p>There is no matching movie.</p>
+            {% endif %}
             </main>
         </p>
     </main>

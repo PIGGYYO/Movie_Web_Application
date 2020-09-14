@@ -2,7 +2,7 @@
 import csv
 from abc import ABC
 
-from movie_web_app.domain.model import Movie, Actor, Director, Genre
+from movie_web_app.domain.model import Movie, Actor, Director, Genre, Review, User
 from movie_web_app.adapters.repository import AbstractRepository
 
 
@@ -14,6 +14,9 @@ class MemoryRepository(AbstractRepository):
         self.dataset_of_actors = []
         self.dataset_of_directors = []
         self.dataset_of_genres = []
+        self.users = []
+        self.reviews = []
+        self.tags = []
 
     def add_actor(self, actor: Actor):
         if actor not in self.dataset_of_actors:
@@ -46,6 +49,12 @@ class MemoryRepository(AbstractRepository):
         movie.vote = vote
         self.dataset_of_movies.append(movie)
 
+    def add_user(self, user: User):
+        self.users.append(user)
+
+    def add_review(self, review: Review):
+        self.reviews.append(review)
+
     def get_actor(self, actor_name) -> Actor:
         return next((actor for actor in self.dataset_of_actors if actor.actor_full_name == actor_name), None)
 
@@ -57,6 +66,12 @@ class MemoryRepository(AbstractRepository):
 
     def get_movie(self, title) -> Movie:
         return next((movie for movie in self.dataset_of_movies if movie.title == title), None)
+
+    def get_user(self, user_name) -> User:
+        return next((user for user in self.users if user.user_name == user_name), None)
+
+    def get_review(self):
+        return self.reviews
 
 
 def read_csv_file(filename: str, repo: MemoryRepository):

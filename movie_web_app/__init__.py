@@ -1,5 +1,5 @@
 # __init__.py
-from flask import Flask, request
+from flask import Flask, request, session
 import os
 from movie_web_app.adapters.memory_repository import MemoryRepository, read_csv_file
 import movie_web_app.adapters.repository as repo
@@ -25,6 +25,9 @@ def create_app():
 
         from .movies import movies
         app.register_blueprint(movies.movies_blueprint)
+
+        from .authentication import authentication
+        app.register_blueprint(authentication.authentication_blueprint)
 
     repo.repo_instance = MemoryRepository()
     read_csv_file(os.path.join(data_path, 'Data1000Movies.csv'),repo.repo_instance)

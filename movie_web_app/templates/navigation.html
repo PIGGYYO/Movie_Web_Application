@@ -4,18 +4,44 @@
           <a href="{{ url_for('home_bp.home') }}">Home</a>
       </h2>
   </div>
+
   <div>
-    <h3>
-      <a href="{{ url_for('search_bp.find_movie') }}">
-          Search Movies
+    <h3 id="sub-nav-header">
+      <a href="{{ url_for('movies_bp.display_movies') }}">
+        Movies List
+      </a>
+    </h3>
+  </div>
+
+
+  <div>
+    <h3 id="sub-nav-header">
+      <a href="{{ url_for('authentication_bp.register') }}">
+        Register
       </a>
     </h3>
   </div>
 
   <div>
     <h3 id="sub-nav-header">
-      <a href="{{ url_for('movies_bp.display_movies') }}">
-        Movies List
+      <a href="{{ url_for('authentication_bp.login') }}">
+        Login
+      </a>
+    </h3>
+  </div>
+
+  <div>
+    <h3 id="sub-nav-header">
+      <a href="{{ url_for('search_bp.search_by_director') }}">
+        Searching by Director
+      </a>
+    </h3>
+  </div>
+
+  <div>
+    <h3 id="sub-nav-header">
+      <a href="{{ url_for('search_bp.search_by_genre') }}">
+        Searching by Genres
       </a>
     </h3>
   </div>

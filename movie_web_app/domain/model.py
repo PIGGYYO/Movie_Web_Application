@@ -1,5 +1,7 @@
 # model.py
-# Actor, Director, Genre, Movie
+# Actor, Director, Genre, Movie, Review, User
+import time
+
 
 class Actor:
     def __init__(self, actor_full_name):
@@ -39,6 +41,8 @@ class Director:
             return "<None>"
 
     def __eq__(self, other):
+        if other == None:
+            return False
         return self.director_full_name == other.director_full_name
 
     def __lt__(self, other):
@@ -59,6 +63,8 @@ class Genre:
             return "<None>"
 
     def __eq__(self, other):
+        if other is None:
+            return True
         return self.genre_name == other.genre_name
 
     def __lt__(self, other):
@@ -83,6 +89,7 @@ class Movie:
         self.meta = "N/A"
         self.revenue = "N/A"
         self.vote = 0
+        self.review = []
 
     def __repr__(self):
         return "<Movie {}, {}>".format(self.title, self.time)
@@ -121,3 +128,80 @@ class Movie:
         if runtime_minutes < 0:
             raise ValueError("")
         self.__runtime_minutes = runtime_minutes
+
+
+class Review:
+    def __init__(self, movie, review_text, rating):
+        self.movie = movie
+        self.review_text = review_text
+        if rating >= 0 and rating <= 10:
+            self.rating = rating
+        else:
+            self.rating = None
+        self.time_strap = time.time()
+
+    def __repr__(self):
+        return ""
+
+    def __eq__(self, other):
+        if self.movie == other.movie and self.review_text == other.review_text and self.rating == other.rating and self.time_strap == other.time_strap:
+            return True
+        return False
+
+
+class User:
+    def __init__(self, user_name, password):
+        self.user_name = user_name.strip().lower()
+        self.password = password
+        self.watched_movies = []
+        self.reviews = []
+        self.time_spent_watching_movies_minutes = 0
+
+    def __repr__(self):
+        return "<User {}>".format(self.user_name)
+
+    def __eq__(self, other):
+        return self.user_name == other.user_name
+
+    def __lt__(self, other):
+        return self.user_name < other.user_name
+
+    def __hash__(self):
+        return hash(self.user_name)
+
+    def watch_movie(self, movie):
+        if movie not in self.watched_movies and type(movie) is Movie:
+            self.watched_movies += [movie]
+            self.time_spent_watching_movies_minutes += movie.runtime_minutes
+
+    def add_review(self, review):
+        if review not in self.reviews and type(review) is Review:
+            self.reviews += [review]
+
+    @property
+    def time_spent_watching_movies_minutes(self):
+        return self.__time_spent_watching_movies_minutes
+
+    @time_spent_watching_movies_minutes.setter
+    def time_spent_watching_movies_minutes(self, time_spent_watching_movies_minutes):
+        if time_spent_watching_movies_minutes < 0:
+            raise ValueError("")
+        self.__time_spent_watching_movies_minutes = time_spent_watching_movies_minutes
+
+    @property
+    def user_name(self):
+        return self.__user_name
+
+    @user_name.setter
+    def user_name(self, user_name):
+        if type(user_name) is str:
+            self.__user_name = user_name.strip().lower()
+
+    @property
+    def password(self):
+        return self.__password
+
+    @password.setter
+    def password(self, password):
+        if type(password) is str:
+            self.__password = password
