@@ -1,6 +1,6 @@
 # movies.py
 from flask import Blueprint, render_template, url_for, redirect, request, session
-from movie_web_app.domain.model import Genre
+from movie_web_app.domain.model import Genre, Actor
 
 import movie_web_app.adapters.repository as repo
 
@@ -11,22 +11,6 @@ movies_blueprint = Blueprint('movies_bp', __name__)
 @movies_blueprint.route('/display', methods=['GET'])
 def display_movies(title = None,name1 = None, name2 = None, name3 = None):
     movie_list = []
-    try:
-        if name1 is None:
-            name1 = Genre(request.args.get('name1').strip().strip('<').strip('>'))
-    except:
-        pass
-    try:
-        if name2 is None:
-            name2 = Genre(request.args.get('name2').strip().strip('<').strip('>'))
-    except:
-        pass
-    try:
-        if name3 is None:
-            name3 = Genre(request.args.get('name3').strip().strip('<').strip('>'))
-    except:
-        pass
-
 
     if title is None:
         title = request.args.get('title')
@@ -37,6 +21,22 @@ def display_movies(title = None,name1 = None, name2 = None, name3 = None):
         movie_list = repo.repo_instance.dataset_of_movies
 
     if title == 'Genre':
+        try:
+            if name1 is None:
+                name1 = Genre(request.args.get('name1').strip().strip('<').strip('>'))
+        except:
+            pass
+        try:
+            if name2 is None:
+                name2 = Genre(request.args.get('name2').strip().strip('<').strip('>'))
+        except:
+            pass
+        try:
+            if name3 is None:
+                name3 = Genre(request.args.get('name3').strip().strip('<').strip('>'))
+        except:
+            pass
+
         for movie in repo.repo_instance.dataset_of_movies:
             if name1 is None and name2 is None and name3 is None:
                 return render_template('search_movie/lost.html',
@@ -44,6 +44,32 @@ def display_movies(title = None,name1 = None, name2 = None, name3 = None):
                                        redirect_url = url_for('search_bp.search_by_genre'))
             if name1 in movie.genres and name2 in movie.genres and name3 in movie.genres:
                 movie_list.append(movie)
+
+    if title == 'Actor':
+        try:
+            if name1 is None:
+                name1 = Actor(request.args.get('name1').strip().strip('<').strip('>'))
+        except:
+            pass
+        try:
+            if name2 is None:
+                name2 = Actor(request.args.get('name2').strip().strip('<').strip('>'))
+        except:
+            pass
+        try:
+            if name3 is None:
+                name3 = Actor(request.args.get('name3').strip().strip('<').strip('>'))
+        except:
+            pass
+
+        for movie in repo.repo_instance.dataset_of_movies:
+            if name1 is None and name2 is None and name3 is None:
+                return render_template('search_movie/lost.html',
+                                   title='actors',
+                                   redirect_url=url_for('search_bp.search_by_actor'))
+            if name1 in movie.actors and name2 in movie.actors and name3 in movie.actors:
+                movie_list.append(movie)
+
     per_page = 6
     cursor = request.args.get('cursor')
     if cursor is None:

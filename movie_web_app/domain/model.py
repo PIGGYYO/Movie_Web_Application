@@ -15,6 +15,8 @@ class Actor:
             return "<None>"
 
     def __eq__(self, other):
+        if other is None:
+            return True
         return self.actor_full_name == other.actor_full_name
 
     def __lt__(self, other):

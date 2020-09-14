@@ -77,3 +77,26 @@ class GenreForm(FlaskForm):
     name2 = StringField("Genre 2",[DataRequired(message='Genre is required')])
     name3 = StringField("Genre 3",[DataRequired(message='Genre is required')])
     submit = SubmitField('Search by Genre')
+
+
+@search_blueprint.route('/search_by_actor', methods=['GET', 'POST'])
+def search_by_actor():
+    form = ActorForm()
+    if form.validate_on_submit():
+        actor1 = form.name1.data
+        actor2 = form.name2.data
+        actor3 = form.name3.data
+        actor1 = repo.repo_instance.get_actor(actor1)
+        actor2 = repo.repo_instance.get_actor(actor2)
+        actor3 = repo.repo_instance.get_actor(actor3)
+        return display_movies('Actor',actor1,actor2,actor3)
+    return render_template('search_movie/genre_actor.html',
+                           form = form,
+                           handler_url = url_for('search_bp.search_by_actor'))
+
+
+class ActorForm(FlaskForm):
+    name1 = StringField("Actor 1",[DataRequired(message='Actor is required')])
+    name2 = StringField("Actor 2",[DataRequired(message='Actor is required')])
+    name3 = StringField("Actor 3",[DataRequired(message='Actor is required')])
+    submit = SubmitField('Search by Genre')
