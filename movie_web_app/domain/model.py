@@ -1,6 +1,6 @@
 # model.py
 # Actor, Director, Genre, Movie, Review, User
-import time
+from datetime import time,datetime
 
 
 class Actor:
@@ -92,6 +92,7 @@ class Movie:
         self.revenue = "N/A"
         self.vote = 0
         self.review = []
+        self.add_comment_url = ''
 
     def __repr__(self):
         return "<Movie {}, {}>".format(self.title, self.time)
@@ -133,14 +134,15 @@ class Movie:
 
 
 class Review:
-    def __init__(self, movie, review_text, rating):
+    def __init__(self, user, movie, review_text, rating):
+        self.user = user
         self.movie = movie
         self.review_text = review_text
         if rating >= 0 and rating <= 10:
             self.rating = rating
         else:
             self.rating = None
-        self.time_strap = time.time()
+        self.time_strap = datetime.today()
 
     def __repr__(self):
         return ""

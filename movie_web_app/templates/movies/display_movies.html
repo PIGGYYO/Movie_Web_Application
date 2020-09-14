@@ -20,6 +20,15 @@
             {% if movies != None %}
                 {% for movie in movies %}
                     {% include 'movies/movie_list.html' %}
+
+                    {% if movie.review |length != 0 %}
+                        <p><strong>Reviews</strong></p>
+                        {% for review in movie.review %}
+                            <p>{{ review.review_text }}, by {{ review.user}}, {{review.time_strap}}, Rating: {{ review.rating }}</p>
+                            <br>
+                        {% endfor %}
+                    {% endif %}
+                    <a href="{{ movie.add_comment_url }}">Comment</a>
                     <p><br></p>
                     <p><br></p>
                 {% endfor %}
@@ -39,6 +48,7 @@
                 {% if last_movie_url != None %}
                     <a href="{{ last_movie_url }}">Last Page</a>
                 {% endif %}
+
             {% else %}
                 <p>There is no matching movie.</p>
             {% endif %}

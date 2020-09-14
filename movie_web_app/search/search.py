@@ -1,10 +1,12 @@
 # search_movie.py
 from flask import Blueprint, render_template, url_for, redirect, request, session
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, StringField
-from wtforms.validators import DataRequired
+from wtforms import SubmitField, StringField, TextAreaField, HiddenField, IntegerField
+from wtforms.validators import DataRequired, Length, ValidationError
 from movie_web_app.movies.movies import display_movies
 import movie_web_app.adapters.repository as repo
+from movie_web_app.authentication.authentication import login_required
+from movie_web_app.domain.model import Review
 
 # Configure Blueprint.
 search_blueprint = Blueprint('search_bp', __name__)
@@ -100,3 +102,43 @@ class ActorForm(FlaskForm):
     name2 = StringField("Actor 2",[DataRequired(message='Actor is required')])
     name3 = StringField("Actor 3",[DataRequired(message='Actor is required')])
     submit = SubmitField('Search by Genre')
+
+
+@search_blueprint.route('/comment', methods=['GET', 'POST'])
+@login_required
+def comment_on_movie():
+    username = session['username']
+    form = CommentForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        review = Review(username, title, form.comment.data, form.rating.data)
+        movie = repo.repo_instance.get_movie(title)
+        movie.review.append(review)
+
+
+        return redirect(url_for('movies_bp.display_movies', view_comments_for=title))
+
+    if request.method == 'GET':
+        title = request.args.get('title')
+        form.title.data = title
+    else:
+        title = form.title.data
+
+    movie = repo.repo_instance.get_movie(title)
+    return render_template(
+        'search_movie/comment_on_movie.html',
+        title='Comment',
+        movie=movie,
+        form=form,
+        handler_url=url_for('search_bp.comment_on_movie'))
+
+
+class CommentForm(FlaskForm):
+    comment = TextAreaField('Comment', [
+        DataRequired(),
+        Length(min=4, message='Your comment is too short')])
+    rating = IntegerField('Rating',[
+        DataRequired(message='Rating is required')
+    ])
+    title = HiddenField("Title")
+    submit = SubmitField('Submit')

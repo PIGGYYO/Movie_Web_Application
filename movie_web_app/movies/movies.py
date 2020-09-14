@@ -12,6 +12,10 @@ movies_blueprint = Blueprint('movies_bp', __name__)
 def display_movies(title = None,name1 = None, name2 = None, name3 = None):
     movie_list = []
 
+    movies_to_show_comments = request.args.get('view_comments_for')
+    if movies_to_show_comments is None:
+        movies_to_show_comments = -1
+
     if title is None:
         title = request.args.get('title')
         if title is None:
@@ -101,6 +105,12 @@ def display_movies(title = None,name1 = None, name2 = None, name3 = None):
         if len(movie_list) % per_page == 0:
             last_cursor -= per_page
         last_movie_url = url_for('movies_bp.display_movies', cursor=last_cursor,title = title,name1 = name1,name2 = name2,name3 = name3)
+
+    for movie in movie_list:
+        movie.view_comment_url = url_for('movies_bp.display_movies', cursor=cursor,title = title,name1 = name1,name2 = name2,name3 = name3,view_comments_for=movie.title)
+        movie.add_comment_url = url_for('search_bp.comment_on_movie', title=movie.title)
+
+
     return render_template('movies/display_movies.html',
                            title= title,
                            movies=movies,
@@ -110,4 +120,6 @@ def display_movies(title = None,name1 = None, name2 = None, name3 = None):
                            first_movie_url=first_movie_url,
                            last_movie_url=last_movie_url,
                            prev_movie_url=prev_movie_url,
-                           next_movie_url=next_movie_url)
+                           next_movie_url=next_movie_url,
+                           show_comments_for_article = movies_to_show_comments)
+
