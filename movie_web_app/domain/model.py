@@ -142,13 +142,13 @@ class Review:
             self.rating = rating
         else:
             self.rating = None
-        self.time_strap = datetime.today()
+        self.time_stamp = datetime.today()
 
     def __repr__(self):
         return ""
 
     def __eq__(self, other):
-        if self.movie == other.movie and self.review_text == other.review_text and self.rating == other.rating and self.time_strap == other.time_strap:
+        if self.movie == other.movie and self.review_text == other.review_text and self.rating == other.rating and self.time_stamp == other.time_stamp:
             return True
         return False
 

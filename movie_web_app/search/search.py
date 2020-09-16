@@ -101,7 +101,7 @@ class ActorForm(FlaskForm):
     name1 = StringField("Actor 1",[DataRequired(message='Actor is required')])
     name2 = StringField("Actor 2",[DataRequired(message='Actor is required')])
     name3 = StringField("Actor 3",[DataRequired(message='Actor is required')])
-    submit = SubmitField('Search by Genre')
+    submit = SubmitField('Search by Actor')
 
 
 @search_blueprint.route('/comment', methods=['GET', 'POST'])
@@ -114,21 +114,26 @@ def comment_on_movie():
         review = Review(username, title, form.comment.data, form.rating.data)
         movie = repo.repo_instance.get_movie(title)
         movie.review.append(review)
-
-
-        return redirect(url_for('movies_bp.display_movies', view_comments_for=title))
+        movie.add_comment_url = url_for('search_bp.comment_on_movie', title=movie.title)
+        return render_template('movies/display_movies.html',
+                               title='Review',
+                               movies = [movie],
+                               first_movie_url=None,
+                               last_movie_url=None,
+                               prev_movie_url=None,
+                               next_movie_url=None)
 
     if request.method == 'GET':
         title = request.args.get('title')
         form.title.data = title
     else:
         title = form.title.data
-
     movie = repo.repo_instance.get_movie(title)
     return render_template(
         'search_movie/comment_on_movie.html',
-        title='Comment',
+        title='Review',
         movie=movie,
+        comment = movie.review,
         form=form,
         handler_url=url_for('search_bp.comment_on_movie'))
 
@@ -138,7 +143,6 @@ class CommentForm(FlaskForm):
         DataRequired(),
         Length(min=4, message='Your comment is too short')])
     rating = IntegerField('Rating',[
-        DataRequired(message='Rating is required')
-    ])
+        DataRequired(message='Rating is required')])
     title = HiddenField("Title")
     submit = SubmitField('Submit')

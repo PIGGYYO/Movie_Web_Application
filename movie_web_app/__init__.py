@@ -5,15 +5,18 @@ from movie_web_app.adapters.memory_repository import MemoryRepository, read_csv_
 import movie_web_app.adapters.repository as repo
 
 
-def create_app():
+def create_app(test_config=None):
     app = Flask(__name__)
 
     # Create the MemoryRepository implementation for a memory-based repository.
     repo.repo_instance = MemoryRepository()
-    data_path = os.path.join('movie_web_app', 'adapters', 'datafiles')
 
     # Configure the app from configuration-file settings
     app.config.from_object('config.Config')
+
+    if test_config is not None:
+        app.config.from_mapping(test_config)
+        data_path = app.config['TEST_DATA_PATH']
 
     with app.app_context():
         # Register blueprints.
@@ -30,6 +33,6 @@ def create_app():
         app.register_blueprint(authentication.authentication_blueprint)
 
     repo.repo_instance = MemoryRepository()
-    read_csv_file(os.path.join(data_path, 'Data1000Movies.csv'),repo.repo_instance)
+    read_csv_file(os.path.join(os.path.join('movie_web_app', 'adapters', 'datafiles'), 'Data1000Movies.csv'),repo.repo_instance)
 
     return app

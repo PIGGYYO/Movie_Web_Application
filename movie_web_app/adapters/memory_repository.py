@@ -68,7 +68,7 @@ class MemoryRepository(AbstractRepository):
         return next((movie for movie in self.dataset_of_movies if movie.title == title), None)
 
     def get_user(self, user_name) -> User:
-        return next((user for user in self.users if user.user_name == user_name), None)
+        return next((user for user in self.users if user.user_name == user_name.lower()), None)
 
     def get_review(self):
         return self.reviews

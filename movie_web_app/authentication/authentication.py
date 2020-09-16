@@ -22,11 +22,9 @@ def register():
     if form.validate_on_submit():
         try:
             service.add_user(form.user_name.data, form.password.data, repo.repo_instance)
-            print(repo.repo_instance.users)
             return redirect(url_for('authentication_bp.login'))
         except service.NameNotUniqueException:
             username_not_unique = 'Your username is already taken - please supply another'
-    print(repo.repo_instance.users)
     return render_template(
         'authentication/user_information.html',
         title = 'Register',
@@ -46,7 +44,6 @@ def login():
     if form.validate_on_submit():
         try:
             user = service.get_user(form.user_name.data.lower(), repo.repo_instance)
-
             service.check_username_password(user.user_name, form.password.data, repo.repo_instance)
             session.clear()
             session['username'] = user.user_name
@@ -92,7 +89,7 @@ class PasswordValid:
 class RegistrationForm(FlaskForm):
     user_name = StringField('Username', [
         DataRequired(message='Username is required'),
-        Length(min=2, message='Username is too short')])
+        Length(min=3, message='Username is too short')])
 
     password = PasswordField('Password', [
         DataRequired(message='Password is required'),

@@ -107,7 +107,6 @@ def display_movies(title = None,name1 = None, name2 = None, name3 = None):
         last_movie_url = url_for('movies_bp.display_movies', cursor=last_cursor,title = title,name1 = name1,name2 = name2,name3 = name3)
 
     for movie in movie_list:
-        movie.view_comment_url = url_for('movies_bp.display_movies', cursor=cursor,title = title,name1 = name1,name2 = name2,name3 = name3,view_comments_for=movie.title)
         movie.add_comment_url = url_for('search_bp.comment_on_movie', title=movie.title)
 
 
@@ -120,6 +119,5 @@ def display_movies(title = None,name1 = None, name2 = None, name3 = None):
                            first_movie_url=first_movie_url,
                            last_movie_url=last_movie_url,
                            prev_movie_url=prev_movie_url,
-                           next_movie_url=next_movie_url,
-                           show_comments_for_article = movies_to_show_comments)
+                           next_movie_url=next_movie_url)
 
