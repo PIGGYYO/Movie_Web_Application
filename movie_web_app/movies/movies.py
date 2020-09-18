@@ -1,6 +1,6 @@
 # movies.py
 from flask import Blueprint, render_template, url_for, redirect, request, session
-from movie_web_app.domain.model import Genre, Actor
+from movie_web_app.domain.model import Genre, Actor, Director
 
 import movie_web_app.adapters.repository as repo
 
@@ -9,35 +9,31 @@ movies_blueprint = Blueprint('movies_bp', __name__)
 
 
 @movies_blueprint.route('/display', methods=['GET'])
-def display_movies(title = None,name1 = None, name2 = None, name3 = None):
+def display_movies():
     movie_list = []
+    movie_title = request.args.get('movie_title')
+    name1 = request.args.get('name1')
+    name2 = request.args.get('name2')
+    name3 = request.args.get('name3')
 
-    movies_to_show_comments = request.args.get('view_comments_for')
-    if movies_to_show_comments is None:
-        movies_to_show_comments = -1
-
+    title = request.args.get('title')
     if title is None:
-        title = request.args.get('title')
-        if title is None:
-            title = 'Movies'
+        title = 'Movies'
 
     if title == 'Movies':
         movie_list = repo.repo_instance.dataset_of_movies
 
     if title == 'Genre':
         try:
-            if name1 is None:
-                name1 = Genre(request.args.get('name1').strip().strip('<').strip('>'))
+            name1 = Genre(name1.strip().strip('<').strip('>'))
         except:
             pass
         try:
-            if name2 is None:
-                name2 = Genre(request.args.get('name2').strip().strip('<').strip('>'))
+            name2 = Genre(name2.strip().strip('<').strip('>'))
         except:
             pass
         try:
-            if name3 is None:
-                name3 = Genre(request.args.get('name3').strip().strip('<').strip('>'))
+            name3 = Genre(name3.strip().strip('<').strip('>'))
         except:
             pass
 
@@ -51,18 +47,15 @@ def display_movies(title = None,name1 = None, name2 = None, name3 = None):
 
     if title == 'Actor':
         try:
-            if name1 is None:
-                name1 = Actor(request.args.get('name1').strip().strip('<').strip('>'))
+            name1 = Actor(name1.strip().strip('<').strip('>'))
         except:
             pass
         try:
-            if name2 is None:
-                name2 = Actor(request.args.get('name2').strip().strip('<').strip('>'))
+            name2 = Actor(name2.strip().strip('<').strip('>'))
         except:
             pass
         try:
-            if name3 is None:
-                name3 = Actor(request.args.get('name3').strip().strip('<').strip('>'))
+            name3 = Actor(name3.strip().strip('<').strip('>'))
         except:
             pass
 
@@ -73,6 +66,19 @@ def display_movies(title = None,name1 = None, name2 = None, name3 = None):
                                    redirect_url=url_for('search_bp.search_by_actor'))
             if name1 in movie.actors and name2 in movie.actors and name3 in movie.actors:
                 movie_list.append(movie)
+
+    if title == 'Review':
+        movie_list.append(repo.repo_instance.get_movie(movie_title))
+
+    if title == 'Director':
+        try:
+            name1 = Director(name1.strip().strip('<').strip('>'))
+        except:
+            pass
+        for movie in repo.repo_instance.dataset_of_movies:
+            if movie.director == name1:
+                movie_list.append(movie)
+
 
     per_page = 6
     cursor = request.args.get('cursor')
@@ -105,6 +111,7 @@ def display_movies(title = None,name1 = None, name2 = None, name3 = None):
         if len(movie_list) % per_page == 0:
             last_cursor -= per_page
         last_movie_url = url_for('movies_bp.display_movies', cursor=last_cursor,title = title,name1 = name1,name2 = name2,name3 = name3)
+
 
     for movie in movie_list:
         movie.add_comment_url = url_for('search_bp.comment_on_movie', title=movie.title)

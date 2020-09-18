@@ -39,15 +39,9 @@ def search_by_director():
         director = repo.repo_instance.get_director(director_full_name)
         if director is None:
             return render_template('search_movie/lost.html',
-                                   title = 'director',
+                                   title = 'Director',
                                    redirect_url = url_for('search_bp.search_by_director'))
-        movies = []
-        for movie in repo.repo_instance.dataset_of_movies:
-            if movie.director == director:
-                movies.append(movie)
-        return render_template('movies/display_movies.html',
-                               movies = movies,
-                               title = "Director" + director.__repr__())
+        return redirect(url_for('movies_bp.display_movies', title='Director', name1= director.__repr__()))
     return render_template('search_movie/director.html',
                            form = form,
                            handler_url = url_for('search_bp.search_by_director'))
@@ -68,7 +62,7 @@ def search_by_genre():
         genre1 = repo.repo_instance.get_genre(genre1)
         genre2 = repo.repo_instance.get_genre(genre2)
         genre3 = repo.repo_instance.get_genre(genre3)
-        return display_movies('Genre',genre1,genre2,genre3)
+        return redirect(url_for('movies_bp.display_movies', title='Genre', name1=genre1,name2 = genre2, name3 = genre3))
     return render_template('search_movie/genre_actor.html',
                            form = form,
                            handler_url = url_for('search_bp.search_by_genre'))
@@ -91,7 +85,7 @@ def search_by_actor():
         actor1 = repo.repo_instance.get_actor(actor1)
         actor2 = repo.repo_instance.get_actor(actor2)
         actor3 = repo.repo_instance.get_actor(actor3)
-        return display_movies('Actor',actor1,actor2,actor3)
+        return redirect(url_for('movies_bp.display_movies', title='Actor', name1=actor1, name2=actor2, name3=actor3))
     return render_template('search_movie/genre_actor.html',
                            form = form,
                            handler_url = url_for('search_bp.search_by_actor'))
@@ -115,14 +109,7 @@ def comment_on_movie():
         movie = repo.repo_instance.get_movie(title)
         movie.review.append(review)
         movie.add_comment_url = url_for('search_bp.comment_on_movie', title=movie.title)
-        return render_template('movies/display_movies.html',
-                               title='Review',
-                               movies = [movie],
-                               first_movie_url=None,
-                               last_movie_url=None,
-                               prev_movie_url=None,
-                               next_movie_url=None)
-
+        return redirect(url_for('movies_bp.display_movies', title = 'Review', movie_title= title))
     if request.method == 'GET':
         title = request.args.get('title')
         form.title.data = title
