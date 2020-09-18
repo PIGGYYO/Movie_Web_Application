@@ -114,8 +114,12 @@ def display_movies():
 
 
     for movie in movie_list:
-        movie.add_comment_url = url_for('search_bp.comment_on_movie', title=movie.title)
-
+            movie.add_comment_url = url_for('search_bp.comment_on_movie', title=movie.title)
+            for actor in movie.actors:
+                actor.add_comment_url = url_for('search_bp.comment_on_actor', title = actor.actor_full_name)
+            for genre in movie.genres:
+                genre.add_comment_url = url_for('search_bp.comment_on_genre', title = genre.genre_name)
+            movie.director.add_comment_url = url_for('search_bp.comment_on_director', title = movie.director.director_full_name)
 
     return render_template('movies/display_movies.html',
                            title= title,
@@ -128,3 +132,27 @@ def display_movies():
                            prev_movie_url=prev_movie_url,
                            next_movie_url=next_movie_url)
 
+
+
+@movies_blueprint.route('/display_actor', methods=['GET'])
+def display_actor():
+    name = request.args.get('name')
+    actor = repo.repo_instance.get_actor(name)
+    return render_template('movies/display_other.html',
+                           name = actor)
+
+
+@movies_blueprint.route('/display_genre', methods=['GET'])
+def display_genre():
+    name = request.args.get('name')
+    genre = repo.repo_instance.get_genre(name)
+    return render_template('movies/display_other.html',
+                           name = genre)
+
+
+@movies_blueprint.route('/display_director', methods=['GET'])
+def display_director():
+    name = request.args.get('name')
+    director = repo.repo_instance.get_director(name)
+    return render_template('movies/display_other.html',
+                           name = director)

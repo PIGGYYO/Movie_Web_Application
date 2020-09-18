@@ -7,6 +7,8 @@ class Actor:
     def __init__(self, actor_full_name):
         self.colleague_list = []
         self.actor_full_name = actor_full_name
+        self.review = []
+        self.rating = 0
 
     def __repr__(self):
         if self.actor_full_name != "" and isinstance(self.actor_full_name, str):
@@ -35,6 +37,8 @@ class Actor:
 class Director:
     def __init__(self, director):
         self.director_full_name = director
+        self.review = []
+        self.rating = 0
 
     def __repr__(self):
         if self.director_full_name != "":
@@ -54,9 +58,12 @@ class Director:
         return hash(self.director_full_name)
 
 
+
 class Genre:
     def __init__(self, genre):
         self.genre_name = genre
+        self.review = []
+        self.rating = 0
 
     def __repr__(self):
         if self.genre_name != "":

@@ -133,3 +133,110 @@ class CommentForm(FlaskForm):
         DataRequired(message='Rating is required')])
     title = HiddenField("Title")
     submit = SubmitField('Submit')
+
+
+@search_blueprint.route('/comment_actor', methods=['GET', 'POST'])
+@login_required
+def comment_on_actor():
+    username = session['username']
+    form = CommentForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        review = Review(username, title, form.comment.data, form.rating.data)
+        actor = repo.repo_instance.get_actor(title)
+        actor.review.append(review)
+        try:
+            actor.rating += review.rating
+        except:
+            pass
+        actor.add_comment_url = url_for('search_bp.comment_on_actor', title=actor.actor_full_name)
+        return redirect(url_for('movies_bp.display_actor', title = 'Review_Actor', name= title))
+
+    if request.method == 'GET':
+        title = request.args.get('title')
+        form.title.data = title
+    else:
+        title = form.title.data
+    actor = repo.repo_instance.get_actor(title)
+    return render_template(
+        'search_movie/comment_on_other.html',
+        title='Review_Actor',
+        name=actor,
+        comment = actor.review,
+        form=form,
+        handler_url=url_for('search_bp.comment_on_actor'))
+
+
+@search_blueprint.route('/comment_genre', methods=['GET', 'POST'])
+@login_required
+def comment_on_genre():
+    username = session['username']
+    form = CommentForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        review = Review(username, title, form.comment.data, form.rating.data)
+        genre = repo.repo_instance.get_genre(title)
+        genre.review.append(review)
+        try:
+            genre.rating += review.rating
+        except:
+            pass
+        genre.add_comment_url = url_for('search_bp.comment_on_genre', title=genre.genre_name)
+        return redirect(url_for('movies_bp.display_genre', title = 'Review_Genre', name= title))
+
+    if request.method == 'GET':
+        title = request.args.get('title')
+        form.title.data = title
+    else:
+        title = form.title.data
+    genre = repo.repo_instance.get_genre(title)
+    return render_template(
+        'search_movie/comment_on_other.html',
+        title='Review_Genre',
+        name=genre,
+        comment = genre.review,
+        form=form,
+        handler_url=url_for('search_bp.comment_on_genre'))
+
+
+@search_blueprint.route('/comment_director', methods=['GET', 'POST'])
+@login_required
+def comment_on_director():
+    username = session['username']
+    form = CommentForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        review = Review(username, title, form.comment.data, form.rating.data)
+        director = repo.repo_instance.get_director(title)
+        director.review.append(review)
+        try:
+            director.rating += review.rating
+        except:
+            pass
+        director.add_comment_url = url_for('search_bp.comment_on_director', title=director.director_full_name)
+        return redirect(url_for('movies_bp.display_director', title = 'Review_Genre', name= title))
+
+    if request.method == 'GET':
+        title = request.args.get('title')
+        form.title.data = title
+    else:
+        title = form.title.data
+    director = repo.repo_instance.get_director(title)
+    return render_template(
+        'search_movie/comment_on_other.html',
+        title='Review_Genre',
+        name=director,
+        comment = director.review,
+        form=form,
+        handler_url=url_for('search_bp.comment_on_director'))
+
+
+class CommentForm(FlaskForm):
+    comment = TextAreaField('Comment', [
+        DataRequired(),
+        Length(min=4, message='Your comment is too short')])
+    rating = IntegerField('Rating',[
+        DataRequired(message='Rating is required')])
+    title = HiddenField("Title")
+    submit = SubmitField('Submit')
+

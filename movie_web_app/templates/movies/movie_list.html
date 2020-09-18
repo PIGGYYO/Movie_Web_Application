@@ -6,9 +6,17 @@
         <ul>
             <p><strong>{{ movie.title }}</strong> {{ movie.time }}</p>
             <p><strong>Description:</strong> {{ movie.description }}</p>
-            <p><strong>Director:</strong> {{ movie.director }}</p>
-            <p><strong>Actors:</strong> {{ movie.actors }}</p>
-            <p><strong>Genres:</strong> {{ movie.genres }}</p>
+            <p><strong>Director:</strong> <a href="{{ movie.director.add_comment_url }}"> {{ movie.director.director_full_name }}</a></p>
+            <p><strong>Actors:</strong>
+                {% for actor in movie.actors %}
+                    <a href="{{ actor.add_comment_url }}"> {{ actor.actor_full_name }}</a>
+                {% endfor %}
+            </p>
+            <p><strong>Genres:</strong>
+                {% for genre in movie.genres %}
+                    <a href="{{ genre.add_comment_url }}"> {{ genre.genre_name }}</a>
+                {% endfor %}
+            </p>
             <p><strong>Runtime:</strong> {{ movie.runtime }} Minutes</p>
             <p><strong>Rating:</strong> {{ movie.rating }}</p>
             <p><strong>Votes:</strong> {{ movie.vote }}</p>
