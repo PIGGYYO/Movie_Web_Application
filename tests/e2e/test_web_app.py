@@ -73,7 +73,7 @@ def test_comment(client, auth):
         '/comment?title=Guardians+of+the+Galaxy',
         data={'comment': '=w=?ss', 'rating': '10', 'title': 'Guardians of the Galaxy'}
     )
-    assert b'=w=?ss' in response.data
+    assert response.headers['Location'] == 'http://localhost/display?title=Review&movie_title=Guardians+of+the+Galaxy'
 
 
 @pytest.mark.parametrize(('comment', 'rating','messages'), (
@@ -94,26 +94,20 @@ def test_comment_with_invalid_input(client, auth, comment,rating,messages):
         assert message in response.data
 
 
-@pytest.mark.parametrize(('name1', 'name2','name3'), (
-        ('Noomi Rapace', 'Logan Marshall-Green','/'),
-        ('Noomi Rapace', '/','/')))
-def test_movie_with_actor(client,name1,name2,name3):
+def test_movie_with_actor(client):
     response = client.post(
         '/search_by_actor',
-        data={'name1': name1, 'name2': name2, 'name3': name3}
+        data={'name1': 'Noomi Rapace', 'name2': 'Logan Marshall-Green', 'name3': '/'}
     )
-    assert b'Noomi Rapace' in response.data
+    assert response.headers['Location'] == 'http://localhost/display?title=Actor&name1=%3CNoomi+Rapace%3E&name2=%3CLogan+Marshall-Green%3E'
 
 
-@pytest.mark.parametrize(('name1', 'name2','name3'), (
-        ('Action', 'Adventure','/'),
-        ('Action', '/','/')))
-def test_movie_with_genre(client,name1,name2,name3):
+def test_movie_with_genre(client):
     response = client.post(
         '/search_by_genre',
-        data={'name1': name1, 'name2': name2, 'name3': name3}
+        data={'name1': 'Action', 'name2': 'Adventure', 'name3': '/'}
     )
-    assert b'Action' in response.data
+    assert response.headers['Location'] == 'http://localhost/display?title=Genre&name1=%3CAction%3E&name2=%3CAdventure%3E'
 
 
 def test_movie_with_director(client):
@@ -121,4 +115,4 @@ def test_movie_with_director(client):
         '/search_by_director',
         data={'director_full_name': 'Ridley Scott'}
     )
-    assert b'Ridley Scott' in response.data
+    assert response.headers['Location'] == 'http://localhost/display?title=Director&name1=%3CRidley+Scott%3E'
