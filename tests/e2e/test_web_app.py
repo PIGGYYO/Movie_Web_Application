@@ -116,3 +116,46 @@ def test_movie_with_director(client):
         data={'director_full_name': 'Ridley Scott'}
     )
     assert response.headers['Location'] == 'http://localhost/display?title=Director&name1=%3CRidley+Scott%3E'
+
+
+def test_comment_actor(client, auth):
+    client.post(
+        '/authentication/register',
+        data={'user_name': 'kurisu', 'password': '1234Qwer'}
+    )
+    auth.login()
+    response = client.get('/comment_actor?title=Chris+Pratt')
+    response = client.post(
+        '/comment_actor?title=Chris+Pratt',
+        data={'comment': '=w=?ss', 'rating': '10', 'title': 'Chris Pratt'}
+    )
+    assert response.headers['Location'] == 'http://localhost/display_actor?title=Review_Actor&name=Chris+Pratt'
+
+
+def test_comment_genre(client, auth):
+    client.post(
+        '/authentication/register',
+        data={'user_name': 'kurisu', 'password': '1234Qwer'}
+    )
+    auth.login()
+    response = client.get('/comment_genre?title=Action')
+    response = client.post(
+        '/comment_genre?title=Action',
+        data={'comment': '=w=?ss', 'rating': '10', 'title': 'Action'}
+    )
+    assert response.headers['Location'] == 'http://localhost/display_genre?title=Review_Genre&name=Action'
+
+
+def test_comment_director(client, auth):
+    client.post(
+        '/authentication/register',
+        data={'user_name': 'kurisu', 'password': '1234Qwer'}
+    )
+    auth.login()
+    response = client.get('/comment_director?title=James+Gunn')
+    response = client.post(
+        '/comment_director?title=James+Gunn',
+        data={'comment': '=w=?ss', 'rating': '10', 'title': 'James Gunn'}
+    )
+    assert response.headers['Location'] == 'http://localhost/display_director?title=Review_Genre&name=James+Gunn'
+
