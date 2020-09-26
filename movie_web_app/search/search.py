@@ -3,7 +3,6 @@ from flask import Blueprint, render_template, url_for, redirect, request, sessio
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, StringField, TextAreaField, HiddenField, IntegerField
 from wtforms.validators import DataRequired, Length, ValidationError
-from movie_web_app.movies.movies import display_movies
 import movie_web_app.adapters.repository as repo
 from movie_web_app.authentication.authentication import login_required
 from movie_web_app.domain.model import Review
@@ -11,26 +10,7 @@ from movie_web_app.domain.model import Review
 # Configure Blueprint.
 search_blueprint = Blueprint('search_bp', __name__)
 
-'''
-@search_blueprint.route('/search_movie', methods=['GET', 'POST'])
-def find_movie():
-    form = FindForm()
-    if form.validate_on_submit():
-        movie_name = form.movie_name.data
-        movie = repo.repo_instance.get_movie(movie_name)
-        return render_template('search_movie/print_movie.html',
-                               movie = movie)
 
-    return render_template('search_movie/find_movie.html',
-                           form=form,
-                           handler_url=url_for('search_bp.find_movie'))
-
-
-class FindForm(FlaskForm):
-    movie_name = StringField("Movie Name", [DataRequired(message='Movie name is required')])
-    submit = SubmitField('Find')
-
-'''
 @search_blueprint.route('/search_by_director', methods=['GET', 'POST'])
 def search_by_director():
     form = DirectorForm()
@@ -123,16 +103,6 @@ def comment_on_movie():
         comment = movie.review,
         form=form,
         handler_url=url_for('search_bp.comment_on_movie'))
-
-
-class CommentForm(FlaskForm):
-    comment = TextAreaField('Comment', [
-        DataRequired(),
-        Length(min=4, message='Your comment is too short')])
-    rating = IntegerField('Rating',[
-        DataRequired(message='Rating is required')])
-    title = HiddenField("Title")
-    submit = SubmitField('Submit')
 
 
 @search_blueprint.route('/comment_actor', methods=['GET', 'POST'])
@@ -239,4 +209,5 @@ class CommentForm(FlaskForm):
         DataRequired(message='Rating is required')])
     title = HiddenField("Title")
     submit = SubmitField('Submit')
+
 

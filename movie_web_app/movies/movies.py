@@ -120,7 +120,6 @@ def display_movies():
             for genre in movie.genres:
                 genre.add_comment_url = url_for('search_bp.comment_on_genre', title = genre.genre_name)
             movie.director.add_comment_url = url_for('search_bp.comment_on_director', title = movie.director.director_full_name)
-
     return render_template('movies/display_movies.html',
                            title= title,
                            movies=movies,
