@@ -40,3 +40,10 @@ $ flask run
 The homepage can be accessed from a Web browser:
 
 http://127.0.0.1:5000/
+
+
+## Testing
+
+Testing requires that file *Movie_Web_Application/tests/conftest.py* be edited to set the value of `TEST_DATA_PATH`. You should set this to the absolute path of the *Movie_Web_Application/tests/data* directory. 
+
+You can then run tests from within PyCharm.
