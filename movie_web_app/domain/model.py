@@ -9,6 +9,7 @@ class Actor:
         self.actor_full_name = actor_full_name
         self.review = []
         self.rating = 0
+        self.rating_num = 0
 
     def __repr__(self):
         if self.actor_full_name != "" and isinstance(self.actor_full_name, str):
@@ -39,6 +40,7 @@ class Director:
         self.director_full_name = director
         self.review = []
         self.rating = 0
+        self.rating_num = 0
 
     def __repr__(self):
         if self.director_full_name != "":
@@ -64,6 +66,7 @@ class Genre:
         self.genre_name = genre
         self.review = []
         self.rating = 0
+        self.rating_num = 0
 
     def __repr__(self):
         if self.genre_name != "":

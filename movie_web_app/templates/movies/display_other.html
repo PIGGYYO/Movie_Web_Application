@@ -3,7 +3,7 @@
     <main id='main'>
         <p><h2> {{ name }} </h2></p>
         {% if name.rating != 0 %}
-            <p>Rating: {{ name.rating // name.review|length }}</p>
+            <p>Rating: {{ name.rating // name.rating_num }}</p>
         {% else %}
             <p>Rating: N/A</p>
         {% endif %}

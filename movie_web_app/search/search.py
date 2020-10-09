@@ -117,6 +117,7 @@ def comment_on_actor():
         actor.review.append(review)
         try:
             actor.rating += review.rating
+            actor.rating_num += 1
         except:
             pass
         actor.add_comment_url = url_for('search_bp.comment_on_actor', title=actor.actor_full_name)
@@ -149,6 +150,7 @@ def comment_on_genre():
         genre.review.append(review)
         try:
             genre.rating += review.rating
+            genre.rating_num += 1
         except:
             pass
         genre.add_comment_url = url_for('search_bp.comment_on_genre', title=genre.genre_name)
@@ -181,6 +183,7 @@ def comment_on_director():
         director.review.append(review)
         try:
             director.rating += review.rating
+            director.rating_num += 1
         except:
             pass
         director.add_comment_url = url_for('search_bp.comment_on_director', title=director.director_full_name)
@@ -194,7 +197,7 @@ def comment_on_director():
     director = repo.repo_instance.get_director(title)
     return render_template(
         'search_movie/comment_on_other.html',
-        title='Review_Genre',
+        title='Review_Director',
         name=director,
         comment = director.review,
         form=form,
